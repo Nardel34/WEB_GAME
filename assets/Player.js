@@ -1,6 +1,6 @@
 class Player {
 
-    constructor(health, strength, speed, PositionX = "", className = "", width = 200, direction = true, action = null) {
+    constructor(health, strength, speed = 0.2, PositionX = "", className = "", width = 200, direction = true, move = false) {
         this.health = health;
         this.strength = strength;
         this.speed = speed;
@@ -8,7 +8,7 @@ class Player {
         this.className = className;
         this.width = width;
         this.direction = direction;
-        this.action = action;
+        this.move = move;
 
         $(className).css('left', PositionX + '%');
     }

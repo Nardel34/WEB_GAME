@@ -1,6 +1,6 @@
 class PlayerController {
 
-    setIdleStaying(agent, direction) {
+    setIdleStaying(agent, direction) { //                                      `${direction}.gif`
         $(agent.className).css('background-image', 'url(../assets/player/idle_' + direction + '.gif)');
     }
     setIdleMoving(agent, direction) {
@@ -10,31 +10,46 @@ class PlayerController {
         $(agent.className).css('background-image', 'url(../assets/player/slashing_' + direction + '.gif)');
     }
 
-    positionX(agent, direction = "") {
+    positionX(agent, direction) {
 
-        var v = 1;
         switch (direction) {
             case "ArrowRight":
-                agent.PositionX += v;
-                agent.direction = true;
+                if (agent.move) {
+                    setTimeout(() => {
+                        this.positionX(agent, direction);
+                    }, 100);
+                    this.setIdleMoving(agent, 'right');
+                    if (agent.PositionX <= 80) {
+                        agent.PositionX += agent.speed;
+                        agent.direction = true;
+                        console.log(agent.positionX);
 
-                this.setIdleMoving(agent, 'right');
-                $(agent.className).css('left', agent.PositionX + '%');
+                        $(agent.className).css('left', agent.PositionX + '%');
+                    }
+                }
                 break;
 
             case "ArrowLeft":
-                agent.PositionX -= v;
-                agent.direction = false;
+                if (agent.move) {
+                    setTimeout(() => {
+                        this.positionX(agent, direction);
+                    }, 100);
+                    this.setIdleMoving(agent, 'left');
+                    if (agent.PositionX >= 5) {
+                        agent.PositionX -= agent.speed;
+                        agent.direction = true;
+                        console.log(agent.positionX);
 
-                this.setIdleMoving(agent, 'left');
-                $(agent.className).css('left', agent.PositionX + '%');
+                        $(agent.className).css('left', agent.PositionX + '%');
+                    }
+                }
                 break;
 
             case "":
                 if (agent.direction) {
-                    this.setIdle(agent, 'right');
+                    this.setIdleStaying(agent, 'right');
                 } else {
-                    this.setIdle(agent, 'left');
+                    this.setIdleStaying(agent, 'left');
                 }
                 break;
         }
